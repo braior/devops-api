@@ -5,7 +5,7 @@ import (
 )
 
 func main(){
-	if ok,_ := beego.AppConfig("authpassword::enableCrontabAuthPassword");ok{
-		common
-	}
+
+	con
+
 }

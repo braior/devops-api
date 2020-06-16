@@ -1,7 +1,10 @@
-package main
+package common
 
 import (
+	"fmt"
+
 	"github.com/astaxie/beego"
+	"github.com/chanyipiaomiao/hltool"
 	"github.com/robfig/cron"
 )
 
@@ -15,10 +18,18 @@ var (
 
 // GenPassword 生成验证密码
 func GenPassword() map[string]bool {
+	WillAuthPassword = hltool.GenRandomString(32, "no")
+	info := fmt.Sprintf("请注意,本次验证密码为: %s 生成时间: %s", WillAuthPassword, hltool.GetNowTime2())
 
+	sendResult := make(chan bool)
+	if ok,_:=beego.AppConfig.Bool("authpassword::enableDingtalkReciveGenPassword");ok{
+		go func(ch chan bool,messageType, message string){
+			ok,_:=SendByDingTalkRobot(messageType,message,""."")
+		}
+	}
 }
 
-// GenPassword 生成验证密码
+// CronGenAuthPassword 定时生成验证密码
 func CronGenAuthPassword() {
 	c := cron.New()
 	c.AddFunc(beego.AppConfig.String("genAuthPasswordCrontab"), func() {

@@ -4,6 +4,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/astaxie/beego"
+	"github.com/chanyipiaomiao/hltool"
+
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -34,14 +37,71 @@ func InitCli() {
 		log.Fatal("parse cli args error: %s\n", err)
 	}
 
-	switch c{
+	switch c {
 	case "init":
 		var token *Token
 		var err error
-		token,err= NewToken()
-		if *tokenCreate != ""{
-			err = token.
+		token, err = NewToken()
+		if *refreshRootToken {
+			err = token.AddRootToken(true)
+		} else {
+			err = token.AddRootToken(false)
 		}
 
+		if err != nil {
+			log.Fatalf("%s\n", err)
+		}
+
+	case "backup":
+		if *filepath != "" {
+			err := BackupBolDB(*filepath)
+			if err != nil {
+				log.Fatalf("%s\n", err)
+			}
+		}
+
+	case "server":
+		if EnableToken {
+			token, err := NewToken()
+			if err != nil {
+				log.Fatalf("%s\n", err)
+			}
+			r, _ := token.IsExistToken("root")
+			if !r {
+				log.Fatalf("root token not exist, please init \n")
+			}
+		}
+
+		if *logPath != "" {
+			LogPathFromCli = *logPath
+		}
+
+		// 初始化日志
+		InitLog()
+
+		// 获取服务运行模式
+		if *runMode != "" {
+			if ok, _ := hltool.InStringSlice([]string{"dev", "prod", "test"}, *runMode); !ok {
+				log.Fatalln("run mode input error. mode: dev|prod|test")
+			}
+			beego.BConfig.RunMode = *runMode
+		}
+
+		beego.SetStaticPath("/api/static/download/qr", "static/download/qr")
+		beego.Run()
+
+	case "token":
+		var token *Token
+		var err error
+		token,err=NewToken()
+		if *tokenCreate!=""{
+			err=token.AddRootToken(*tokenRoot,*tokenCreate)
+			if err!=nil{
+				log.Fatalf("%s\n", err)
+			}
+		}
+		if *tokenDelete!=""{
+			err = token.dele
+		}
 	}
 }

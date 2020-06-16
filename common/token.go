@@ -64,6 +64,48 @@ func (t *Token) IsExistToken(name string) (bool, error) {
 	return false, nil
 }
 
+// DeleteToken 删除Token
+// name token名称
+func (t *Token) deleteToken(rootToken, name string) error {
+
+}
+
+// AddToken 生成一个root token 用于管理其他的token
+// rootToken root token 创建其他token 需要root token
+// name token的名称: root token名为: root , 其他token: 指定的名称
+func (t *Token) AddToken(rootToken, name string) error {
+	if name != "root" && rootToken == "" {
+		return fmt.Errorf("warning: need root token")
+	}
+
+	if rootToken != "" {
+		if ok, err := t.IsExistToken(rootToken); !ok {
+			return err
+		}
+	}
+
+	tokenValue := map[string]interface{}{
+		"name":       name,
+		"updateTime": hltool.GetNowTimeStamp(),
+	}
+
+	jwt := hltool.NewJWToken(t.SignString)
+	token, err := jwt.GenJWToken(tokenValue)
+	if err != nil {
+		return err
+	}
+
+	t.TokenDb.Set(map[string][]byte{
+		name: []byte(token),
+	})
+
+	fmt.Printf("warning: For < %s > token only shows once, keep in mind!!! \n", name)
+	fmt.Printf("\t %s \n", token)
+
+	return nil
+
+}
+
 // IsTokenValid token是否有效
 func (t *Token) IsTokenValid(token string) (bool, error) {
 	jwt := hltool.NewJWToken(t.SignString)
@@ -87,4 +129,16 @@ func (t *Token) IsTokenValid(token string) (bool, error) {
 	}
 
 	return false, fmt.Errorf("token is not valid")
+}
+
+// AddRootToken 创建一个root token
+// forceRefresh: 是否强制刷新 root token
+func (t *Token) AddRootToken(forceRefresh bool) error {
+	if !forceRefresh {
+		r, err := t.IsExistToken("root")
+		if r {
+			return fmt.Errorf("%s, you can add --refresh-root-token refresh root token", err)
+		}
+	}
+	return t.AddRootToken("", root)
 }

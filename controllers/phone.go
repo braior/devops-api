@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"devops-api/common"
+	"fmt"
 )
 
 var (
@@ -11,8 +12,10 @@ var (
 // Get Get方法
 func (p *PhoneController) Get() {
 	phone := p.GetString("phone")
-	m, err := common.queryPhone(phone)
-	if err!=nil{
-		p.jsonerr
+	m, err := common.QueryPhone(phone)
+	if err != nil {
+		p.JsonError(queryPhoneEntryType, fmt.Sprintf("%s", err), StringMap{}, true)
+		return
 	}
+	p.JsonOK(queryPhoneEntryType, m, true)
 }

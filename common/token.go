@@ -161,5 +161,5 @@ func (t *Token) AddRootToken(forceRefresh bool) error {
 			return fmt.Errorf("%s, you can add --refresh-root-token refresh root token", err)
 		}
 	}
-	return t.AddRootToken("", root)
+	return t.AddToken("", "root")
 }

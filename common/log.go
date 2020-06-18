@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/chanyipiaomiao/hltool"
-
 	"github.com/astaxie/beego"
 )
 
@@ -15,7 +14,7 @@ import (
 func InitLog() {
 	var logpath string
 	if LogPathFromCli == "" {
-		Logpath = beego.AppConfig.String("log::logPath")
+		logpath = beego.AppConfig.String("log::logPath")
 	} else {
 		logpath = LogPathFromCli
 	}

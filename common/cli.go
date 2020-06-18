@@ -34,7 +34,7 @@ func InitCli() {
 
 	c, err := app.Parse(os.Args[1:])
 	if err != nil {
-		log.Fatal("parse cli args error: %s\n", err)
+		log.Fatalf("parse cli args error: %s\n", err)
 	}
 
 	switch c {
@@ -95,7 +95,7 @@ func InitCli() {
 		var err error
 		token, err = NewToken()
 		if *tokenCreate != "" {
-			err = token.AddRootToken(*tokenRoot, *tokenCreate)
+			err := token.AddToken(*tokenRoot, *tokenCreate)
 			if err != nil {
 				log.Fatalf("%s\n", err)
 			}
@@ -103,7 +103,7 @@ func InitCli() {
 		if *tokenDelete != "" {
 			err = token.DeleteToken(*tokenRoot, *tokenDelete)
 			if err != nil {
-				log.Fatal("%s\n", err)
+				log.Fatalf("%s\n", err)
 			}
 		}
 	}

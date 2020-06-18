@@ -1,6 +1,10 @@
 package controllers
 
-import "github.com/astaxie/beego"
+import (
+	"devops-api/common"
+
+	"github.com/astaxie/beego"
+)
 
 func getUniqueIDName() string {
 	// 从配置文件中获取 RequestID或者TraceID,如果配置文件中没有配置默认就是 RequestId
@@ -8,6 +12,7 @@ func getUniqueIDName() string {
 	if uniqueIDName == "" {
 		uniqueIDName = "RequestID"
 	}
+	return uniqueIDName
 }
 
 var (
@@ -24,15 +29,15 @@ type BaseController struct {
 }
 
 func (b *BaseController) log(msg StringMap) StringMap {
-	if _,ok :=msg["requestId"];!ok{
+	if _, ok := msg["requestId"]; !ok {
 		msg["requestId"] = b.Data[UniQueIDName]
 	}
 
-	if _,ok :=msg["clientIP"];!ok{
+	if _, ok := msg["clientIP"]; !ok {
 		msg["clientIP"] = b.Data["RemoteIP"]
 	}
 
-	if _,ok:=msg["token"];!ok{
+	if _, ok := msg["token"]; !ok {
 		msg["token"] = b.Data["token"]
 	}
 	return msg
@@ -64,18 +69,18 @@ func (b *BaseController) json(entryType, errmsg string, statuscode int, data int
 		"data":       data,
 	}
 
-	b.Data["json"]=msg
+	b.Data["json"] = msg
 	b.ServeJSON()
 
 	msg["clientIP"] = b.Data["RemoteIP"]
-	msg["token"]:=b.Data["token"]
+	msg["token"] = b.Data["token"]
 
-	if isLog{
-		go func(){
-			if statuscode == 1{
-				b.LogError(entryType,msg)
-			}else{
-				b.LogInfo(entryType,msg)
+	if isLog {
+		go func() {
+			if statuscode == 1 {
+				b.LogError(entryType, msg)
+			} else {
+				b.LogInfo(entryType, msg)
 			}
 		}()
 	}

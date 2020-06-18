@@ -66,8 +66,29 @@ func (t *Token) IsExistToken(name string) (bool, error) {
 
 // DeleteToken 删除Token
 // name token名称
-func (t *Token) deleteToken(rootToken, name string) error {
+func (t *Token) DeleteToken(rootToken, name string) error {
+	if name == "root" {
+		return fmt.Errorf("can't delete root token")
+	}
 
+	if rootToken == "" {
+		return fmt.Errorf("need root token")
+	}
+
+	if ok, err := t.IsTokenValid(rootToken); !ok {
+		return err
+	}
+
+	r, err := t.IsExistToken(name)
+	if r {
+		err = t.TokenDb.Delete([]string{name})
+		if err != nil {
+			return fmt.Errorf("delete token < %s > error: %s", name, err)
+		}
+		fmt.Printf("delete token <%s> ok.\n", name)
+		return nil
+	}
+	return fmt.Errorf("token < %s > not exist", name)
 }
 
 // AddToken 生成一个root token 用于管理其他的token

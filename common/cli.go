@@ -93,15 +93,18 @@ func InitCli() {
 	case "token":
 		var token *Token
 		var err error
-		token,err=NewToken()
-		if *tokenCreate!=""{
-			err=token.AddRootToken(*tokenRoot,*tokenCreate)
-			if err!=nil{
+		token, err = NewToken()
+		if *tokenCreate != "" {
+			err = token.AddRootToken(*tokenRoot, *tokenCreate)
+			if err != nil {
 				log.Fatalf("%s\n", err)
 			}
 		}
-		if *tokenDelete!=""{
-			err = token.dele
+		if *tokenDelete != "" {
+			err = token.DeleteToken(*tokenRoot, *tokenDelete)
+			if err != nil {
+				log.Fatal("%s\n", err)
+			}
 		}
 	}
 }

@@ -64,6 +64,17 @@ func (t *Token) IsExistToken(name string) (bool, error) {
 	return false, nil
 }
 
+// IsRootToken 是否是root token,root token 不能被用来请求
+func (t *Token) IsRootToken(token string) (bool, error) {
+	jwt := hltool.NewJWToken(t.SignString)
+	parseToken, err := jwt.ParseJWToken(token)
+	if err != nil {
+		return false, err
+	}
+	tokenName := parseToken["name"].(string)
+	return tokenName == "root", nil
+}
+
 // DeleteToken 删除Token
 // name token名称
 func (t *Token) DeleteToken(rootToken, name string) error {

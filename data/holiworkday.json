@@ -1,0 +1,56 @@
+{
+    "year": "2020",
+    "holiday": [
+        {
+            "name": "yuandan",
+            "zh_name": "元旦",
+            "start_time": "2020-01-01",
+            "end_time": "2020-01-01"
+        },
+        {
+            "name": "chunjie",
+            "zh_name": "春节",
+            "start_time": "2020-01-24",
+            "end_time": "2020-02-02"
+        },
+        {
+            "name": "qingming",
+            "zh_name": "清明节",
+            "start_time": "2020-03-04",
+            "end_time": "2020-03-06"
+        },
+        {
+            "name": "laodong",
+            "zh_name": "劳动节",
+            "start_time": "2020-05-01",
+            "end_time": "2020-05-05"
+        },
+        {
+            "name": "duanwu",
+            "zh_name": "端午节",
+            "start_time": "2020-06-25",
+            "end_time": "2020-06-27"
+        },
+        {
+            "name": "zhongqiu",
+            "zh_name": "中秋节",
+            "start_time": "2020-10-01",
+            "end_time": "2020-10-08"
+        },
+        {
+            "name": "guoqing",
+            "zh_name": "国庆节",
+            "start_time": "2020-10-01",
+            "end_time": "2020-10-08"
+        }
+    ],
+    "workday": [
+        "2020-01-19",
+        "2020-04-26",
+        "2020-05-09",
+        "2020-06-28",
+        "2020-09-27",
+        "2020-10-10"
+
+    ]
+}

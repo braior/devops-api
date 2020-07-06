@@ -28,6 +28,7 @@ var (
 	filepath = backup.Flag("filepath", "Special Backup FilePath").String()
 )
 
+
 // InitCli 初始化命令行参数
 func InitCli() {
 	app.Author(Author).Version(AppVersion)
@@ -36,7 +37,7 @@ func InitCli() {
 	if err != nil {
 		log.Fatalf("parse cli args error: %s\n", err)
 	}
-
+	
 	switch c {
 	case "init":
 		var token *Token

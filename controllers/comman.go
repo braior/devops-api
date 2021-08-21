@@ -1,9 +1,13 @@
 package controllers
 
 import (
+
+	// "github.com/braior/devops-api/common"
 	"github.com/astaxie/beego"
-	"github.com/braior/devops-api/common"
+
+	"github.com/braior/devops-api/utils"
 	uuid "github.com/satori/go.uuid"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -38,76 +42,135 @@ func getUniqueIDName() string {
 }
 
 // log 记录body中的header信息到日志中
-func (b *BaseController) log(msg LogMap) LogMap {
-	if _, ok := msg["requestID"]; !ok {
-		msg["requestID"] = b.Data[UniQueIDName]
-	}
+// func (b *BaseController) log(msg LogMap) LogMap {
 
-	if _, ok := msg["clientIP"]; !ok {
-		msg["clientIP"] = b.Data["RemoteIP"]
-	}
+// 	if _, ok := msg["requestID"]; !ok {
+// 		msg["requestID"] = b.Data[UniQueIDName]
+// 	}
 
-	if _, ok := msg["token"]; !ok {
-		msg["token"] = b.Data["token"]
-	}
-	return msg
+// 	if _, ok := msg["clientIP"]; !ok {
+// 		msg["clientIP"] = b.Data["RemoteIP"]
+// 	}
+
+// 	if _, ok := msg["token"]; !ok {
+// 		msg["token"] = b.Data["token"]
+// 	}
+// 	return msg
+// }
+
+// LogDebug ...
+func (b *BaseController) LogDebug(message string, logMap LogMap) {
+	// messageMap := b.log(msg)
+	// if _, ok := messageMap["statusCode"]; !ok {
+	// 	messageMap["statusCode"] = 0
+	// }
+
+	utils.Logger.Debug(logMap, message)
 }
 
 // LogInfo ...
-func (b *BaseController) LogInfo(entryType string, msg LogMap) {
-	message := b.log(msg)
-	if _, ok := msg["statusCode"]; !ok {
-		message["statusCode"] = 0
-	}
-	common.Logger.Info(message, entryType)
+func (b *BaseController) LogInfo(message string, logMap LogMap) {
+	// messageMap := b.log(msg)
+	// if _, ok := messageMap["statusCode"]; !ok {
+	// 	messageMap["statusCode"] = 0
+	// }
+	utils.Logger.Info(logMap, message)
 }
 
-func (b *BaseController) LogError(entryType string, msg LogMap) {
-	message := b.log(msg)
-	if _, ok := message["statusCode"]; !ok {
-		message["statusCode"] = 1
-	}
-	common.Logger.Error(message, entryType)
+func (b *BaseController) LogWarn(message string, logMap LogMap) {
+	// messageMap := b.log(msg)
+	// if _, ok := messageMap["statusCode"]; !ok {
+	// 	messageMap["statusCode"] = -1
+	// }
+	utils.Logger.Warn(logMap, message)
 }
 
-func (b *BaseController) json(entryType, errMsg string, statusCode int, data interface{}, isLog bool) {
-	msg := map[string]interface{}{
+func (b *BaseController) LogError(message string, logMap LogMap) {
+	// messageMap := b.log(msg)
+	// if _, ok := messageMap["statusCode"]; !ok {
+	// 	messageMap["statusCode"] = 1
+	// }
+	utils.Logger.Error(logMap, message)
+}
+
+func (b *BaseController) LogFatal(message string, logMap LogMap) {
+	// messageMap := b.log(msg)
+	// if _, ok := messageMap["statusCode"]; !ok {
+	// 	messageMap["statusCode"] = -1
+	// }
+	utils.Logger.Fatal(logMap, message)
+}
+
+func (b *BaseController) json(entryType, message string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
+	responseData := map[string]interface{}{
 		"entryType":  entryType,
 		"requestID":  b.Data[UniQueIDName],
-		"errMsg":     errMsg,
+		"message":    message,
 		"statusCode": statusCode,
 		"data":       data,
 	}
-	b.Data["json"] = msg
+
+	b.Data["json"] = responseData
 	b.ServeJSON()
 
-	msg["clientIP"] = b.Data["RemotIP"]
-	msg["token"] = b.Data["token"]
+	logMsg := make(map[string]interface{})
+
+	logMsg["clientIP"] = b.Data["RemoteIP"]
+	logMsg["token"] = b.Data["token"]
+	// logMsg["requestID"] = b.Data[UniQueIDName]
+	logMsg["responseMsg"] = responseData
 
 	if isLog {
 		go func() {
-			if statusCode == 1 {
-				b.LogError(entryType, msg)
-			} else {
-				b.LogInfo(entryType, msg)
+			switch logLevel {
+			case logrus.DebugLevel:
+				b.LogDebug(message, logMsg)
+			case logrus.InfoLevel:
+				b.LogInfo(message, logMsg)
+			case logrus.WarnLevel:
+				b.LogWarn(message, logMsg)
+			case logrus.ErrorLevel:
+				b.LogError(message, logMsg)
+			case logrus.FatalLevel:
+				b.LogFatal(message, logMsg)
 			}
+			// if statusCode == 1 {
+			// 	b.LogError(message, logMsg)
+			// } else if statusCode == 0 {
+			// 	b.LogInfo(message, logMsg)
+			// } else if statusCode == -1 {
+			// 	b.LogFatal(message, logMsg)
+			// }
 		}()
 	}
 }
 
-func (b *BaseController) JsonError(entryType, errMsg string, data interface{}, isLog bool) {
-	b.json(entryType, errMsg, 1, data, isLog)
+func (b *BaseController) Json(entryType, Msg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
+	b.json(entryType, Msg, statusCode, logLevel, data, isLog)
 }
 
-func (b *BaseController) JsonOK(entryType, errMsg string, data interface{}, isLog bool) {
-	b.json(entryType, "", 0, data, isLog)
-}
+// func (b *BaseController) JsonInfo(entryType, Msg string, data interface{}, isLog bool) {
+// 	b.json(entryType, Msg, 0, data, isLog)
+// }
 
+// func (b *BaseController) JsonWarning(entryType, Msg string, data interface{}, isLog bool) {
+// 	b.json(entryType, Msg, 0, data, isLog)
+// }
+
+// func (b *BaseController) JsonError(entryType, Msg string, data interface{}, isLog bool) {
+// 	b.json(entryType, Msg, -1, data, isLog)
+// }
+
+// func (b *BaseController) JsonFatal(entryType, Msg string, data interface{}, isLog bool) {
+// 	b.json(entryType, Msg, -1, data, isLog)
+// }
+
+// Prepare 覆盖beego.Controller的方法
 func (b *BaseController) Prepare() {
 	// 获取客户端IP
 	b.Data["RemoteIP"] = b.Ctx.Input.IP()
 
-	uniqueID := b.Ctx.Input.Header(UniQueIDName)
+	uniqueID := b.Ctx.Input.Header("UniQueIDName")
 	if uniqueID == "" {
 		uniqueID = uuid.NewV4().String()
 	}

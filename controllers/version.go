@@ -2,9 +2,13 @@ package controllers
 
 import (
 	"github.com/braior/devops-api/common"
+	"github.com/sirupsen/logrus"
 )
 
 // GetVersion 获取程序版本信息
 func (v *VersionController) Get() {
-	v.JsonOK("Get APP Version", "", common.GetVersion(), true)
+	v.Json("Get APP Version", "hahah", 0, logrus.InfoLevel, common.GetVersion(), true)
+	v.Json("Get APP Version", "hahah", -1, logrus.ErrorLevel, common.GetVersion(), true)
+	//v.JsonError("Get APP Version", "error", common.GetVersion(), true)
+	//v.JsonFatal("Get APP Version", "fatal", common.GetVersion(), true)
 }

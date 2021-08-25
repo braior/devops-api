@@ -22,11 +22,9 @@ var initCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("run user update command")
 		token, err := common.NewToken()
-		fmt.Printf("%v", *token.TokenDB)
 		if err != nil {
 			log.Fatalf("%s\n", err)
 		}
-		fmt.Println(RefreshRootToken)
 
 		if RefreshRootToken {
 			err := token.AddRootToken(true)
@@ -34,7 +32,6 @@ var initCmd = &cobra.Command{
 				fmt.Println(err)
 			}
 		} else {
-			fmt.Println("hehr")
 			err := token.AddRootToken(false)
 			if err != nil {
 				fmt.Println(err)

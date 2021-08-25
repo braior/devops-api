@@ -16,4 +16,8 @@ var (
 
 	// DBPath 数据库文件路径
 	DBPath string
+
+	RootToken string
+	CreateToken string
+	DeleteToken string
 )

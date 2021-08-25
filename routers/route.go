@@ -12,6 +12,9 @@ func init() {
 			beego.NSNamespace("/version",
 				beego.NSRouter("", &controllers.VersionController{}),
 			),
+			beego.NSNamespace("/md5",
+				beego.NSRouter("", &controllers.MD5Controller{}),
+			),
 		),
 	)
 	beego.AddNamespace(apiNS)

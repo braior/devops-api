@@ -1,11 +1,13 @@
 package cmd
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/astaxie/beego"
 	"github.com/braior/brtool"
+	"github.com/braior/devops-api/common"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // 注册命令
@@ -23,10 +25,28 @@ var serverCmd = &cobra.Command{
 	Use:   "server ",
 	// Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+
+		EnableToken := viper.GetBool("security.enableToken")
+		if EnableToken {
+			token, err := common.NewToken()
+			if err != nil {
+				errLog := fmt.Sprintf("init token error: %v", err)
+				beego.BeeLogger.Error(errLog)
+				return
+			}
+			r, _ := token.IsExistToken("root")
+			if !r {
+				beego.BeeLogger.Error("root token not exist, please init")
+				// return
+			}
+		}
 		if RunMode != "" {
 			if _, ok := brtool.InstringSlice([]string{"dev", "test", "prod"}, RunMode); !ok {
-				log.Fatalln("get run mode input error, mode: dev|test|prod")
+				beego.BeeLogger.Error("get run mode input error, mode: dev|test|prod")
+				//log.Fatalf("get run mode input error, mode: dev|test|prod")
+				// log.Fatalln("get run mode input error, mode: dev|test|prod")
 			}
+
 		}
 		beego.BConfig.RunMode = RunMode
 

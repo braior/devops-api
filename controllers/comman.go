@@ -1,9 +1,8 @@
 package controllers
 
 import (
-
-	// "github.com/braior/devops-api/common"
 	"github.com/astaxie/beego"
+	"github.com/braior/devops-api/common"
 
 	"github.com/braior/devops-api/utils"
 	uuid "github.com/satori/go.uuid"
@@ -18,6 +17,8 @@ var (
 	NeedTokenError = "need DEVOPS-API-TOKEN header"
 	// TokenAuthError 错误信息提示
 	TokenAuthError = "DEVOPS-API-TOKEN auth failed"
+	// ProhibitUseRootToken 不可以使用root token
+	ProhibitUseRootToken = "Prohibit the use of root token"
 )
 
 // LogMap 记录日志数据
@@ -101,11 +102,11 @@ func (b *BaseController) LogFatal(message string, logMap LogMap) {
 	utils.Logger.Fatal(logMap, message)
 }
 
-func (b *BaseController) json(entryType, message string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
+func (b *BaseController) json(entryType, errMsg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
 	responseData := map[string]interface{}{
 		"entryType":  entryType,
 		"requestID":  b.Data[UniQueIDName],
-		"message":    message,
+		"errMsg":    errMsg,
 		"statusCode": statusCode,
 		"data":       data,
 	}
@@ -117,22 +118,22 @@ func (b *BaseController) json(entryType, message string, statusCode int, logLeve
 
 	logMsg["clientIP"] = b.Data["RemoteIP"]
 	logMsg["token"] = b.Data["token"]
-	// logMsg["requestID"] = b.Data[UniQueIDName]
+	logMsg["requestID"] = b.Data[UniQueIDName]
 	logMsg["responseMsg"] = responseData
 
 	if isLog {
 		go func() {
 			switch logLevel {
 			case logrus.DebugLevel:
-				b.LogDebug(message, logMsg)
+				b.LogDebug(entryType, logMsg)
 			case logrus.InfoLevel:
-				b.LogInfo(message, logMsg)
+				b.LogInfo(entryType, logMsg)
 			case logrus.WarnLevel:
-				b.LogWarn(message, logMsg)
+				b.LogWarn(entryType, logMsg)
 			case logrus.ErrorLevel:
-				b.LogError(message, logMsg)
+				b.LogError(entryType, logMsg)
 			case logrus.FatalLevel:
-				b.LogFatal(message, logMsg)
+				b.LogFatal(entryType, logMsg)
 			}
 			// if statusCode == 1 {
 			// 	b.LogError(message, logMsg)
@@ -176,9 +177,49 @@ func (b *BaseController) Prepare() {
 	}
 
 	b.Data[UniQueIDName] = uniqueID
+
+	// 配置文件文件中启用了token功能,才验证token
+	if viper.GetBool("security.enableToken") {
+		// 获取 DEVOPS-API-TOKEN 头信息
+		token := b.Ctx.Input.Header("DEVOPS-API-TOKEN")
+		if token == "" {
+			b.json("JWToken Auth", NeedTokenError, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.StopRun()
+		}
+		b.Data["token"] = token
+
+		// 验证 DEVOPS-API-TOKEN 是否有效
+		jwtoken, err := common.NewToken()
+		if err != nil {
+			b.json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.StopRun()
+		}
+
+		// 验证是否是root token 不能使用root token
+		isroot, err := jwtoken.IsRootToken(token)
+		if err != nil {
+			b.json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.StopRun()
+		}
+		if isroot {
+			b.json("JWToken Auth", ProhibitUseRootToken, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.StopRun()
+		}
+
+		_, err = jwtoken.IsTokenValid(token)
+		if err != nil {
+			b.json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.StopRun()
+		}
+	}
 }
 
 // VersionController 程序自身版本管理控制器
 type VersionController struct {
+	BaseController
+}
+
+// MD5Controller 程序自身版本管理控制器
+type MD5Controller struct {
 	BaseController
 }

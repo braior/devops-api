@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/astaxie/beego"
 	"github.com/braior/devops-api/cmd"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -31,7 +32,7 @@ func initConfig() {
 
 	viper.AutomaticEnv()
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+		beego.BeeLogger.Info("Using config file: %s", viper.ConfigFileUsed())
 	}
 
 	fmt.Println(viper.GetString("app.runMode"))

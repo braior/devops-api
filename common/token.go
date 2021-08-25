@@ -131,7 +131,7 @@ func (t *Token) DeleteToken(rootToken, name string) error {
 // name token的名称: root token名为: root , 其他token: 指定的名称
 func (t *Token) AddToken(rootToken, name string) error {
 	if name != "root" && rootToken == "" {
-		return fmt.Errorf("warning: need root token")
+		return fmt.Errorf("error: need root token")
 	}
 	if rootToken != "" {
 		if ok, err := t.IsTokenValid(rootToken); !ok {

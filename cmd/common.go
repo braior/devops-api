@@ -1,6 +1,5 @@
 package cmd
 
-
 var (
 
 	// Used for flags.
@@ -17,7 +16,6 @@ var (
 	// DBPath 数据库文件路径
 	DBPath string
 
-	RootToken string
-	CreateToken string
-	DeleteToken string
+	InitRootToken bool
+	Name string
 )

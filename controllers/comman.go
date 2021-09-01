@@ -3,8 +3,8 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/braior/devops-api/common"
-
 	"github.com/braior/devops-api/utils"
+
 	uuid "github.com/satori/go.uuid"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -106,7 +106,7 @@ func (b *BaseController) json(entryType, errMsg string, statusCode int, logLevel
 	responseData := map[string]interface{}{
 		"entryType":  entryType,
 		"requestID":  b.Data[UniQueIDName],
-		"errMsg":    errMsg,
+		"errMsg":     errMsg,
 		"statusCode": statusCode,
 		"data":       data,
 	}
@@ -221,5 +221,10 @@ type VersionController struct {
 
 // MD5Controller 程序自身版本管理控制器
 type MD5Controller struct {
+	BaseController
+}
+
+// DingdingController 程序自身版本管理控制器
+type DingdingController struct {
 	BaseController
 }

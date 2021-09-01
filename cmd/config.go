@@ -1,11 +1,11 @@
-package utils
+package cmd
 
 import (
 	"fmt"
 	"os"
 
 	"github.com/astaxie/beego"
-	"github.com/braior/devops-api/cmd"
+	"github.com/braior/devops-api/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -15,9 +15,9 @@ func init() {
 }
 
 func initConfig() {
-	if cmd.CfgFile != "" {
+	if CfgFile != "" {
 		// Use config file from the flag.
-		viper.SetConfigFile(cmd.CfgFile)
+		viper.SetConfigFile(CfgFile)
 	} else {
 		// Find home directory.
 		// home, err := os.UserHomeDir()
@@ -36,5 +36,5 @@ func initConfig() {
 	}
 
 	fmt.Println(viper.GetString("app.runMode"))
-	LogInit()
+	utils.LogInit()
 }

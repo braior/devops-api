@@ -6,10 +6,7 @@ import (
 
 	"github.com/braior/brtool"
 	"github.com/spf13/viper"
-	
 )
-
-
 
 const (
 	// 定义存放token的表明
@@ -25,7 +22,7 @@ type Token struct {
 // NewToken 返回Token对象
 func NewToken() (*Token, error) {
 	tokenDB, err := brtool.NewBoltDB(viper.GetString("database.dbPath"), tokenTableName)
-	
+
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +143,6 @@ func (t *Token) AddToken(rootToken, name string) error {
 		}(),
 	}
 
-
 	jwt := brtool.NewJWToken(t.SignString)
 	token, err := jwt.GenJWToken(tokenValue)
 	if err != nil {
@@ -163,14 +159,16 @@ func (t *Token) AddToken(rootToken, name string) error {
 }
 
 // AddRootToken 创建一个root token
-// forceRefresh: 是否强制刷新 root token
-func (t *Token) AddRootToken(forceRefresh bool) error {
-	if !forceRefresh {
-		r, err := t.IsExistToken("root")
-		if r {
-			return fmt.Errorf("%s, you can add --refresh-root-token refresh root token", err)
-		}
+func (t *Token) AddRootToken() error {
+	r, err := t.IsExistToken("root")
+	if r {
+		return fmt.Errorf("%s, you can use --refresh-root-token refresh root token", err)
 	}
-	
 	return t.AddToken("", "root")
+}
+
+// ForceRefresh: 是否强制刷新 root token
+func (t *Token) ForceRefresh() error {
+	return t.AddToken("", "root")
+
 }

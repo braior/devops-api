@@ -1,4 +1,4 @@
 logs/*
 .vscode
 ./devops-api
-./conf/devops-api.yaml
+conf/devops-api.yaml

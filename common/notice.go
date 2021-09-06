@@ -4,15 +4,15 @@ import (
 	"fmt"
 
 	"github.com/braior/brtool"
-	"github.com/spf13/viper"
 	"github.com/braior/devops-api/utils"
+	"github.com/spf13/viper"
 )
 
 // SendByDingTalkRobot 通过钉钉发送消息通知
 func SendByDingTalkRobot(messageType, message, title, robotURL string) (bool, error) {
 	var url string
 	if robotURL == "" {
-		url = viper.GetString("notice.dingTalkRobot")
+		url = viper.GetString("notice.dingding.dingTalkRobot")
 	} else {
 		url = robotURL
 	}
@@ -31,7 +31,7 @@ func SendByDingTalkRobot(messageType, message, title, robotURL string) (bool, er
 			"entryType":     "DingTalkRobot",
 			"dingTalkRobot": url,
 		}
-		utils.Logger.Fatal(dingFields,fmt.Sprintf("发送钉钉通知失败了: %s",err))
+		utils.Logger.Error(dingFields, fmt.Sprintf("发送钉钉通知失败了: %s", err))
 		//fmt.Printf("noticd %v 发送钉钉通知失败了: %s", dingFields, err)
 		return false, err
 	}

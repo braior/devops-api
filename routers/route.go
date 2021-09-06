@@ -15,7 +15,13 @@ func init() {
 			beego.NSNamespace("/md5",
 				beego.NSRouter("", &controllers.MD5Controller{}),
 			),
+			beego.NSNamespace("/sendmsg",
+				beego.NSNamespace("/dingding",
+					beego.NSRouter("", &controllers.DingdingController{}, "post:SendMessage"),
+				),
+			),
 		),
 	)
+
 	beego.AddNamespace(apiNS)
 }

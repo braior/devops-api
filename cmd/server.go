@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/braior/brtool"
 	"github.com/braior/devops-api/common"
+	"github.com/braior/devops-api/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -14,8 +15,8 @@ import (
 func init() {
 	// serverCmd.PersistentFlags().StringP("server", "server", "server name", "oo")
 	serverCmd.PersistentFlags().StringVar(&RunMode, "runmode", "dev", "author name for copyright attribution")
-	serverCmd.PersistentFlags().BoolVar(&Debug, "debug", false, "author name for copyright attribution")
-	serverCmd.PersistentFlags().StringVar(&LogPathFromCli, "log", "", "author name for copyright attribution")
+	serverCmd.PersistentFlags().BoolVar(&utils.Debug, "debug", false, "author name for copyright attribution")
+	serverCmd.PersistentFlags().StringVar(&utils.LogPathFromCli, "log", "", "author name for copyright attribution")
 	serverCmd.PersistentFlags().StringVar(&CfgFile, "config", "", "author name for copyright attribution")
 	RootCmd.AddCommand(serverCmd)
 }

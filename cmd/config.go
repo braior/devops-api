@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/astaxie/beego"
@@ -35,6 +34,5 @@ func initConfig() {
 		beego.BeeLogger.Info("Using config file: %s", viper.ConfigFileUsed())
 	}
 
-	fmt.Println(viper.GetString("app.runMode"))
 	utils.LogInit()
 }

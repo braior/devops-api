@@ -18,10 +18,12 @@ func (d *DingdingController) SendMessage() {
 	title := d.GetString("title")
 	robotURL := d.GetString("url")
 
-	_, err := common.SendByDingTalkRobot(msgType, msg, title, robotURL)
-	if err != nil {
+	ok, err := common.SendByDingTalkRobot(msgType, msg, title, robotURL)
+	if err != nil || !ok {
 		d.json(dingdingEnterType, fmt.Sprintf("%s", err), 1, logrus.ErrorLevel, LogMap{"result": "send dingding message failed"}, true)
 		return
 	}
+
 	d.json(dingdingEnterType, "", 0, logrus.InfoLevel, LogMap{"result": "send dingtalk message succeed"}, true)
+
 }

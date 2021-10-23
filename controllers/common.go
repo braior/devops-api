@@ -219,17 +219,17 @@ type VersionController struct {
 	BaseController
 }
 
-// MD5Controller md5控制器
+// MD5Controller 程序自身版本管理控制器
 type MD5Controller struct {
 	BaseController
 }
 
-// DingdingController 发送钉钉消息控制器
+// DingdingController 程序自身版本管理控制器
 type DingdingController struct {
 	BaseController
 }
 
-// EmailController 发送邮件消息控制器
-type EmailController struct{
+// PasswordController
+type PasswordController struct{
 	BaseController
 }

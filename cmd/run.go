@@ -13,17 +13,17 @@ import (
 
 // 注册命令
 func init() {
-	// serverCmd.PersistentFlags().StringP("server", "server", "server name", "oo")
-	serverCmd.PersistentFlags().StringVar(&RunMode, "runmode", "dev", "author name for copyright attribution")
-	serverCmd.PersistentFlags().BoolVar(&utils.Debug, "debug", false, "author name for copyright attribution")
-	serverCmd.PersistentFlags().StringVar(&utils.LogPathFromCli, "log", "", "author name for copyright attribution")
-	serverCmd.PersistentFlags().StringVar(&CfgFile, "config", "", "author name for copyright attribution")
-	RootCmd.AddCommand(serverCmd)
+	serverRunCmd.PersistentFlags().StringVar(&RunMode, "runmode", "dev", "author name for copyright attribution")
+	serverRunCmd.PersistentFlags().BoolVar(&utils.Debug, "debug", false, "author name for copyright attribution")
+	serverRunCmd.PersistentFlags().StringVar(&utils.LogPathFromCli, "log", "", "author name for copyright attribution")
+	serverRunCmd.PersistentFlags().StringVar(&CfgFile, "config", "", "author name for copyright attribution")
+	RootCmd.AddCommand(serverRunCmd)
 }
 
-var serverCmd = &cobra.Command{
-	Short: "server",
-	Use:   "server ",
+var serverRunCmd = &cobra.Command{
+	Use:   "run",
+	Short: "run",
+
 	// Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 

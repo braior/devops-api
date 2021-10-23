@@ -9,6 +9,9 @@ func init() {
 
 	apiNS := beego.NewNamespace("/apis",
 		beego.NSNamespace("/v1",
+			beego.NSNamespace("password",
+				beego.NSRouter("/generation", &controllers.PasswordController{}, "get:GenPassword"),
+			),
 			beego.NSNamespace("/version",
 				beego.NSRouter("", &controllers.VersionController{}),
 			),

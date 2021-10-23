@@ -25,5 +25,4 @@ func (d *DingdingController) SendMessage() {
 	}
 
 	d.json(dingdingEnterType, "", 0, logrus.InfoLevel, LogMap{"result": "send dingtalk message succeed"}, true)
-
 }

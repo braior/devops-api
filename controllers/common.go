@@ -102,7 +102,7 @@ func (b *BaseController) LogFatal(message string, logMap LogMap) {
 	utils.Logger.Fatal(logMap, message)
 }
 
-func (b *BaseController) json(entryType, errMsg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
+func (b *BaseController) Json(entryType, errMsg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
 	responseData := map[string]interface{}{
 		"entryType":  entryType,
 		"requestID":  b.Data[UniQueIDName],
@@ -146,9 +146,9 @@ func (b *BaseController) json(entryType, errMsg string, statusCode int, logLevel
 	}
 }
 
-func (b *BaseController) Json(entryType, Msg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
-	b.json(entryType, Msg, statusCode, logLevel, data, isLog)
-}
+// func (b *BaseController) Json(entryType, Msg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
+// 	b.json(entryType, Msg, statusCode, logLevel, data, isLog)
+// }
 
 // func (b *BaseController) JsonInfo(entryType, Msg string, data interface{}, isLog bool) {
 // 	b.json(entryType, Msg, 0, data, isLog)
@@ -183,7 +183,7 @@ func (b *BaseController) Prepare() {
 		// 获取 DEVOPS-API-TOKEN 头信息
 		token := b.Ctx.Input.Header("DEVOPS-API-TOKEN")
 		if token == "" {
-			b.json("JWToken Auth", NeedTokenError, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.Json("JWToken Auth", NeedTokenError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
 		}
 		b.Data["token"] = token
@@ -191,24 +191,24 @@ func (b *BaseController) Prepare() {
 		// 验证 DEVOPS-API-TOKEN 是否有效
 		jwtoken, err := common.NewToken()
 		if err != nil {
-			b.json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.Json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
 		}
 
 		// 验证是否是root token 不能使用root token
 		isroot, err := jwtoken.IsRootToken(token)
 		if err != nil {
-			b.json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.Json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
 		}
 		if isroot {
-			b.json("JWToken Auth", ProhibitUseRootToken, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.Json("JWToken Auth", ProhibitUseRootToken, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
 		}
 
 		_, err = jwtoken.IsTokenValid(token)
 		if err != nil {
-			b.json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
+			b.Json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
 		}
 	}
@@ -230,6 +230,11 @@ type DingdingController struct {
 }
 
 // PasswordController
-type PasswordController struct{
+type PasswordController struct {
+	BaseController
+}
+
+// EmailController
+type EmailController struct {
 	BaseController
 }

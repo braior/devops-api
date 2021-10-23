@@ -3,7 +3,6 @@ package cmd
 import (
 	"os"
 
-	"github.com/braior/brtool"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -38,20 +37,10 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 }
 
-// Execute executes the root command.
-func Execute() {
-	if err := RootCmd.Execute(); err != nil {
-		os.Exit(1)
-	}
-}
-
 func init() {
+	cobra.OnInitialize(setConfig)
 	DBPath = viper.GetString("database.dbPath")
 	// 上传目录时候存在
-	UploadPath = viper.GetString("app.uploadDir")
-	if !brtool.IsExist(UploadPath) {
-		os.MkdirAll(UploadPath, os.ModePerm)
-	}
 
 	// token action cmd
 	create.AddCommand(NewCreateTokenCmd())
@@ -66,4 +55,14 @@ func init() {
 	RootCmd.AddCommand(delete)
 	RootCmd.AddCommand(update)
 	RootCmd.AddCommand(get)
+	RootCmd.AddCommand(serverRunCmd)
 }
+
+// Execute executes the root command.
+func Execute() {
+	if err := RootCmd.Execute(); err != nil {
+		os.Exit(1)
+	}
+}
+
+

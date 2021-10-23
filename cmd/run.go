@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/astaxie/beego"
 	"github.com/braior/brtool"
@@ -13,11 +14,12 @@ import (
 
 // 注册命令
 func init() {
+
 	serverRunCmd.PersistentFlags().StringVar(&RunMode, "runmode", "dev", "author name for copyright attribution")
 	serverRunCmd.PersistentFlags().BoolVar(&utils.Debug, "debug", false, "author name for copyright attribution")
 	serverRunCmd.PersistentFlags().StringVar(&utils.LogPathFromCli, "log", "", "author name for copyright attribution")
 	serverRunCmd.PersistentFlags().StringVar(&CfgFile, "config", "", "author name for copyright attribution")
-	RootCmd.AddCommand(serverRunCmd)
+
 }
 
 var serverRunCmd = &cobra.Command{
@@ -26,6 +28,10 @@ var serverRunCmd = &cobra.Command{
 
 	// Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		UploadPath = viper.GetString("app.uploadDir")
+		if !brtool.IsExist(UploadPath) {
+			os.MkdirAll(UploadPath, os.ModePerm)
+		}
 
 		EnableToken := viper.GetBool("security.enableToken")
 		if EnableToken {

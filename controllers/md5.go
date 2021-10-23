@@ -13,5 +13,5 @@ func (m *MD5Controller) Get() {
 		"rawString":    rawString,
 		"rawStringMD5": rawStringMD5,
 	}
-	m.json("Get String MD5", "", 0, logrus.InfoLevel, data, true)
+	m.Json("Get String MD5", "", 0, logrus.InfoLevel, data, true)
 }

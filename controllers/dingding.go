@@ -20,9 +20,9 @@ func (d *DingdingController) SendMessage() {
 
 	ok, err := common.SendByDingTalkRobot(msgType, msg, title, robotURL)
 	if err != nil || !ok {
-		d.json(dingdingEnterType, fmt.Sprintf("%s", err), 1, logrus.ErrorLevel, LogMap{"result": "send dingding message failed"}, true)
+		d.Json(dingdingEnterType, fmt.Sprintf("%s", err), 1, logrus.ErrorLevel, LogMap{"result": "send dingding message failed"}, true)
 		return
 	}
 
-	d.json(dingdingEnterType, "", 0, logrus.InfoLevel, LogMap{"result": "send dingtalk message succeed"}, true)
+	d.Json(dingdingEnterType, "", 0, logrus.InfoLevel, LogMap{"result": "send dingtalk message succeed"}, true)
 }

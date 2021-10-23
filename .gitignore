@@ -3,3 +3,4 @@ logs/*
 ./devops-api
 conf/devops-api.yaml
 data/*
+static/upload/*

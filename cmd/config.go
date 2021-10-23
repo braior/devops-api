@@ -9,11 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func init() {
-	cobra.OnInitialize(initConfig)
-}
-
-func initConfig() {
+func setConfig() {
 	if CfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(CfgFile)

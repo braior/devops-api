@@ -22,6 +22,9 @@ func init() {
 				beego.NSNamespace("/dingding",
 					beego.NSRouter("", &controllers.DingdingController{}, "post:SendMessage"),
 				),
+				beego.NSNamespace("/mail",
+					beego.NSRouter("", &controllers.EmailController{}, "post:SendMessage"),
+				),
 			),
 		),
 	)

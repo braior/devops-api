@@ -14,10 +14,9 @@ import (
 
 var (
 	LogPathFromCli string
-	Debug bool
-	Logger *brtool.BRFileLogger
+	Debug          bool
+	Logger         *brtool.BRFileLogger
 )
-
 
 // NewLogger return a log instance for *logrus.Logger
 func LogInit() {

@@ -3,8 +3,8 @@ package cmd
 import (
 	"os"
 
+	"github.com/braior/devops-api/utils"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var (
@@ -12,18 +12,23 @@ var (
 	// UploadPath 上传目录
 	UploadPath string
 
+	RunMode string
+
+	// QrImageDir 二维码图片目录
+	QrImageDir string
+
 	// Used for flags.
 	CfgFile string
 
 	RefreshRootToken bool
-
-	RunMode string
 
 	// DBPath 数据库文件路径
 	DBPath string
 
 	InitRootToken bool
 	Name          string
+	EnableToken   bool
+	Debug         bool
 
 	userName  string
 	rootToken string
@@ -38,9 +43,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	cobra.OnInitialize(setConfig)
-	DBPath = viper.GetString("database.dbPath")
-	// 上传目录时候存在
+	cobra.OnInitialize(initConfig)
 
 	// token action cmd
 	create.AddCommand(NewCreateTokenCmd())
@@ -55,7 +58,13 @@ func init() {
 	RootCmd.AddCommand(delete)
 	RootCmd.AddCommand(update)
 	RootCmd.AddCommand(get)
-	RootCmd.AddCommand(serverRunCmd)
+
+	run.PersistentFlags().StringVar(&RunMode, "mode", "dev", "author name for copyright attribution")
+	run.PersistentFlags().BoolVar(&utils.Debug, "debug", false, "author name for copyright attribution")
+	run.PersistentFlags().StringVar(&utils.LogPathFromCli, "log", "", "author name for copyright attribution")
+	run.PersistentFlags().StringVar(&CfgFile, "config", "", "author name for copyright attribution")
+
+	RootCmd.AddCommand(run)
 }
 
 // Execute executes the root command.
@@ -64,5 +73,3 @@ func Execute() {
 		os.Exit(1)
 	}
 }
-
-

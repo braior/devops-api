@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/astaxie/beego"
-	"github.com/braior/devops-api/common"
 	"github.com/spf13/cobra"
 )
 
@@ -21,10 +20,10 @@ func NewCreateTokenCmd() *cobra.Command {
 		Long:  "create Command is generate a token for user.",
 		Run: func(cmd *cobra.Command, args []string) {
 			// 如果没有输入 name
-			var token *common.Token
+			var token *Token
 			var err error
 
-			if token, err = common.NewToken(); err != nil {
+			if token, err = NewToken(); err != nil {
 				beego.BeeLogger.Error("new %s failed, err: %s", userName, err)
 				return
 			}

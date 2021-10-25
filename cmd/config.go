@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func setConfig() {
+func initConfig() {
 	if CfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(CfgFile)

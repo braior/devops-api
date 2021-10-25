@@ -40,3 +40,12 @@ security:
 notice:
   dingding:
     dingTalkRobot: https://oapi.dingtalk.com/robot/send?access_token=xxxx
+
+  email:
+    host: smtp.qq.com 
+    port: 465
+    username: xxx@qq.com
+    password: qq邮箱授权码
+
+twostepauth:
+  qrImageDir: static/download/qr

@@ -6,36 +6,41 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/braior/brtool"
-	"github.com/braior/devops-api/common"
-	"github.com/braior/devops-api/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 // 注册命令
-func init() {
+// func init() {
 
-	serverRunCmd.PersistentFlags().StringVar(&RunMode, "runmode", "dev", "author name for copyright attribution")
-	serverRunCmd.PersistentFlags().BoolVar(&utils.Debug, "debug", false, "author name for copyright attribution")
-	serverRunCmd.PersistentFlags().StringVar(&utils.LogPathFromCli, "log", "", "author name for copyright attribution")
-	serverRunCmd.PersistentFlags().StringVar(&CfgFile, "config", "", "author name for copyright attribution")
+// 	serverRunCmd.PersistentFlags().StringVar(&RunMode, "runmode", "dev", "author name for copyright attribution")
+// 	serverRunCmd.PersistentFlags().BoolVar(&utils.Debug, "debug", false, "author name for copyright attribution")
+// 	serverRunCmd.PersistentFlags().StringVar(&utils.LogPathFromCli, "log", "", "author name for copyright attribution")
+// 	serverRunCmd.PersistentFlags().StringVar(&CfgFile, "config", "", "author name for copyright attribution")
 
-}
+// 	fmt.Println(utils.Debug)
+// }
 
-var serverRunCmd = &cobra.Command{
+var run = &cobra.Command{
 	Use:   "run",
 	Short: "run",
 
 	// Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+
+		DBPath = viper.GetString("database.dbPath")
+		QrImageDir = viper.GetString("twoStepAuth.qrImageDir")
+		if !brtool.IsExist(QrImageDir) {
+			os.MkdirAll(QrImageDir, os.ModePerm)
+		}
+		EnableToken = viper.GetBool("security.enableToken")
+
 		UploadPath = viper.GetString("app.uploadDir")
 		if !brtool.IsExist(UploadPath) {
 			os.MkdirAll(UploadPath, os.ModePerm)
 		}
-
-		EnableToken := viper.GetBool("security.enableToken")
 		if EnableToken {
-			token, err := common.NewToken()
+			token, err := NewToken()
 			if err != nil {
 				errLog := fmt.Sprintf("init token error: %v", err)
 				beego.BeeLogger.Error(errLog)

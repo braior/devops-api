@@ -1,6 +1,7 @@
-logs/*
+logs
 .vscode
 ./devops-api
 conf/devops-api.yaml
-data/*
-static/upload/*
+data
+static
+keys

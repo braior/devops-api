@@ -26,8 +26,14 @@ func init() {
 					beego.NSRouter("", &controllers.EmailController{}, "post:SendMessage"),
 				),
 			),
+			beego.NSNamespace("/twostepauth",
+	
+				beego.NSRouter("/enable", &controllers.TwoStepAuthController{}, "get:Enable"),
+				beego.NSRouter("/disable", &controllers.TwoStepAuthController{}, "get:Disable"),
+				beego.NSRouter("/auth", &controllers.TwoStepAuthController{}, "post:Auth"),
+			),
+		
 		),
 	)
-
 	beego.AddNamespace(apiNS)
 }

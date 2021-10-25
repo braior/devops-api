@@ -3,7 +3,6 @@ package cmd
 import (
 	"log"
 
-	"github.com/braior/devops-api/common"
 	"github.com/spf13/cobra"
 )
 
@@ -13,8 +12,6 @@ var delete = &cobra.Command{
 	Long:  "delete Command.",
 }
 
-
-
 func NewDeleteTokenCmd() *cobra.Command {
 	var deleteTokenCmd = &cobra.Command{
 		Use:   "token",
@@ -22,7 +19,7 @@ func NewDeleteTokenCmd() *cobra.Command {
 		Long:  "create Command.",
 
 		Run: func(cmd *cobra.Command, args []string) {
-			var token *common.Token
+			var token *Token
 
 			err := token.DeleteToken(rootToken, userName)
 			if err != nil {

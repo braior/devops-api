@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/braior/devops-api/common"
+	"github.com/braior/devops-api/cmd"
 	"github.com/braior/devops-api/utils"
 
 	uuid "github.com/satori/go.uuid"
@@ -189,7 +189,7 @@ func (b *BaseController) Prepare() {
 		b.Data["token"] = token
 
 		// 验证 DEVOPS-API-TOKEN 是否有效
-		jwtoken, err := common.NewToken()
+		jwtoken, err := cmd.NewToken()
 		if err != nil {
 			b.Json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
@@ -224,17 +224,22 @@ type MD5Controller struct {
 	BaseController
 }
 
-// DingdingController 程序自身版本管理控制器
-type DingdingController struct {
-	BaseController
-}
-
 // PasswordController
 type PasswordController struct {
 	BaseController
 }
 
+// DingdingController
+type DingdingController struct {
+	BaseController
+}
+
 // EmailController
 type EmailController struct {
+	BaseController
+}
+
+// TwoStepAuthController
+type TwoStepAuthController struct {
 	BaseController
 }

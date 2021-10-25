@@ -36,9 +36,7 @@ func (e *EmailController) SendMessage() {
 			e.Json(mailEntryType, errs, -1, logrus.ErrorLevel, LogMap{}, true)
 		}
 		defer f.Close()
-		fmt.Println(cmd.UploadPath)
 		attachFilename = path.Join(cmd.UploadPath, h.Filename)
-		fmt.Println(attachFilename)
 		err = e.SaveToFile("attach", attachFilename)
 		if err != nil {
 			e.LogError(mailEntryType, LogMap{"errmsg": err})

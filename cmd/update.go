@@ -4,11 +4,8 @@ import (
 	"log"
 
 	"github.com/astaxie/beego"
-	"github.com/braior/devops-api/common"
 	"github.com/spf13/cobra"
 )
-
-
 
 var update = &cobra.Command{
 	Use:   "update",
@@ -22,11 +19,11 @@ func NewUpdateTokenCmd() *cobra.Command {
 		Short: "refresh root token",
 		// Args:  cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
-			var token *common.Token
+			var token *Token
 
 			var err error
 
-			if token, err = common.NewToken(); err != nil {
+			if token, err = NewToken(); err != nil {
 				beego.BeeLogger.Error("refresh root token failed, err: %s", err)
 				return
 			}

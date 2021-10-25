@@ -63,8 +63,8 @@ github.com/bketelsen/crypt v0.0.4/go.mod h1:aI6NrJ0pMGgvZKL1iVgXLnfIFJtfV+bKCoqO
 github.com/boltdb/bolt v1.3.1 h1:JQmyP4ZBrce+ZQu0dY660FMfatumYDLun9hBCUVIkF4=
 github.com/boltdb/bolt v1.3.1/go.mod h1:clJnj/oiGkjum5o1McbSZDSLxVThjynRyGBgiAx27Ps=
 github.com/bradfitz/gomemcache v0.0.0-20180710155616-bc664df96737/go.mod h1:PmM6Mmwb0LSuEubjR8N7PtNe1KxZLtOUHtbeikc5h60=
-github.com/braior/brtool v0.0.0-20211023082001-b17a6ce3a9a0 h1:6W5GpyHk0rCDh5lKmqL4ssTV+Q4ej2EssA/l9SPHp98=
-github.com/braior/brtool v0.0.0-20211023082001-b17a6ce3a9a0/go.mod h1:AmjSCO6mE/bhY2FaLq65kkjYOMpsZhwRqJHHdWDCTo4=
+github.com/braior/brtool v0.0.0-20211024021052-661647b05886 h1:YwjYGVhS5igKTH+5+ReZzG47rqR1LbnnCWFWWAutSTA=
+github.com/braior/brtool v0.0.0-20211024021052-661647b05886/go.mod h1:AmjSCO6mE/bhY2FaLq65kkjYOMpsZhwRqJHHdWDCTo4=
 github.com/casbin/casbin v1.7.0/go.mod h1:c67qKN6Oum3UF5Q1+BByfFxkwKvhwW57ITjqwtzR1KE=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cespare/xxhash/v2 v2.1.1 h1:6MnRN8NT7+YBpUIWxHtefFZOKTAPgGjpQSxqLNn0+qY=
@@ -315,6 +315,16 @@ github.com/ryanuber/columnize v0.0.0-20160712163229-9b3edd62028f/go.mod h1:sm1tb
 github.com/satori/go.uuid v1.2.0 h1:0uYX9dsZ2yD7q2RtLRtPSdGDWzjeM3TbMJP9utgA0ww=
 github.com/satori/go.uuid v1.2.0/go.mod h1:dA0hQrYB0VpLJoorglMZABFdXlWrHn1NEOzdhQKdks0=
 github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529/go.mod h1:DxrIzT+xaE7yg65j358z/aeFdxmN0P9QXhEzd20vsDc=
+github.com/sec51/convert v0.0.0-20190309075348-ebe586d87951 h1:taE4tHnTci7boZpw+Xozd6KYy8AJ5WZoIuaJhQ8FvqQ=
+github.com/sec51/convert v0.0.0-20190309075348-ebe586d87951/go.mod h1:SRX4rc9r9AHj56zHfvY1XBPwhLU0vFZdIX7HaD1C3z8=
+github.com/sec51/cryptoengine v0.0.0-20180911112225-2306d105a49e h1:HsNjVWYeVdO/zoSfNBwJOs1PuSQCSCkwqW6Lp1TtZGs=
+github.com/sec51/cryptoengine v0.0.0-20180911112225-2306d105a49e/go.mod h1:g7izN9sUffTPdvcrt39y/ZephG5oJ9XizhJxxBOYDL0=
+github.com/sec51/gf256 v0.0.0-20160126143050-2454accbeb9e h1:wKXba8dfsFjbxkMpzZBKt8gkJAMSm1fIf1OSWQFQrVA=
+github.com/sec51/gf256 v0.0.0-20160126143050-2454accbeb9e/go.mod h1:hCjOqSOB9PBw5MdJ+0uSLCBV7FbLy0xwOR+c193HkcE=
+github.com/sec51/qrcode v0.0.0-20160126144534-b7779abbcaf1 h1:CI9zS8HvMiibvXM/F3IthY797GW77fNYgioJl/8Xzzk=
+github.com/sec51/qrcode v0.0.0-20160126144534-b7779abbcaf1/go.mod h1:uPm44Rj3uXSSOvmKmoeRuAUNUgwH2JHW5KIzqFFS/j4=
+github.com/sec51/twofactor v1.0.1-0.20180911112802-cd97c894b2cc h1:6LobCnVM1FDKXZ8eiOVb4awJf28LjYNk6hydz2FxRBI=
+github.com/sec51/twofactor v1.0.1-0.20180911112802-cd97c894b2cc/go.mod h1:CjtKwpvQSs9SYzLUsRH7gML+TgKeIofT8uxoy7RTLQI=
 github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 h1:X+yvsM2yrEktyI+b2qND5gpH8YhURn0k8OCaeRnkINo=
 github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644/go.mod h1:nkxAfR/5quYxwPZhyDxgasBMnRtBZd0FCEpawpjMUFg=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=

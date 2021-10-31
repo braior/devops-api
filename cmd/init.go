@@ -3,8 +3,10 @@ package cmd
 import (
 	"os"
 
+	"github.com/braior/brtool"
 	"github.com/braior/devops-api/utils"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
@@ -25,10 +27,11 @@ var (
 	// DBPath 数据库文件路径
 	DBPath string
 
-	InitRootToken bool
-	Name          string
-	EnableToken   bool
-	Debug         bool
+	EnableManualGenAuthPassword bool
+	InitRootToken               bool
+	Name                        string
+	EnableToken                 bool
+	Debug                       bool
 
 	userName  string
 	rootToken string
@@ -43,7 +46,22 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
+
+	initConfig()
+	// cobra.OnInitialize(initConfig)
+
+	DBPath = viper.GetString("database.dbPath")
+	QrImageDir = viper.GetString("twoStepAuth.qrImageDir")
+	if !brtool.IsExist(QrImageDir) {
+		os.MkdirAll(QrImageDir, os.ModePerm)
+	}
+	EnableToken = viper.GetBool("security.enableToken")
+
+	UploadPath = viper.GetString("app.uploadDir")
+	EnableManualGenAuthPassword = viper.GetBool("authPassword.enableManualGenAuthPassword")
+	if !brtool.IsExist(UploadPath) {
+		os.MkdirAll(UploadPath, os.ModePerm)
+	}
 
 	// token action cmd
 	create.AddCommand(NewCreateTokenCmd())

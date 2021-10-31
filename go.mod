@@ -5,6 +5,10 @@ go 1.16
 require (
 	github.com/astaxie/beego v1.12.3
 	github.com/braior/brtool v0.0.0-20211024021052-661647b05886
+	github.com/cespare/xxhash/v2 v2.1.2 // indirect
+	github.com/fsnotify/fsnotify v1.4.9
+	github.com/garyburd/redigo v1.6.2
+	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/sec51/convert v0.0.0-20190309075348-ebe586d87951 // indirect

@@ -102,7 +102,7 @@ func (b *BaseController) LogFatal(message string, logMap LogMap) {
 	utils.Logger.Fatal(logMap, message)
 }
 
-func (b *BaseController) Json(entryType, errMsg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
+func (b *BaseController) Json(entryType string, errMsg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
 	responseData := map[string]interface{}{
 		"entryType":  entryType,
 		"requestID":  b.Data[UniQueIDName],

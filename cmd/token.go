@@ -21,7 +21,7 @@ type Token struct {
 
 // NewToken 返回Token对象
 func NewToken() (*Token, error) {
-	tokenDB, err := brtool.NewBoltDB(viper.GetString("database.dbPath"), tokenTableName)
+	tokenDB, err := brtool.NewBoltDB(viper.GetString("db.boltDB.dbPath"), tokenTableName)
 
 	if err != nil {
 		return nil, err

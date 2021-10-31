@@ -2,12 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/astaxie/beego"
 	"github.com/braior/brtool"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // 注册命令
@@ -28,17 +26,6 @@ var run = &cobra.Command{
 	// Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 
-		DBPath = viper.GetString("database.dbPath")
-		QrImageDir = viper.GetString("twoStepAuth.qrImageDir")
-		if !brtool.IsExist(QrImageDir) {
-			os.MkdirAll(QrImageDir, os.ModePerm)
-		}
-		EnableToken = viper.GetBool("security.enableToken")
-
-		UploadPath = viper.GetString("app.uploadDir")
-		if !brtool.IsExist(UploadPath) {
-			os.MkdirAll(UploadPath, os.ModePerm)
-		}
 		if EnableToken {
 			token, err := NewToken()
 			if err != nil {

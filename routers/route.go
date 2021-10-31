@@ -11,7 +11,8 @@ func init() {
 		beego.NSNamespace("/v1",
 			beego.NSNamespace("password",
 				beego.NSRouter("/generation", &controllers.PasswordController{}, "get:GenPassword"),
-			),
+				beego.NSRouter("/genAuthPassword", &controllers.PasswordController{}, "get:GenAuthPassword"),
+				beego.NSRouter("/checkAuthPassword", &controllers.PasswordController{}, "post:CheckAuthPassword")),
 			beego.NSNamespace("/version",
 				beego.NSRouter("", &controllers.VersionController{}),
 			),
@@ -27,12 +28,11 @@ func init() {
 				),
 			),
 			beego.NSNamespace("/twostepauth",
-	
+
 				beego.NSRouter("/enable", &controllers.TwoStepAuthController{}, "get:Enable"),
 				beego.NSRouter("/disable", &controllers.TwoStepAuthController{}, "get:Disable"),
 				beego.NSRouter("/auth", &controllers.TwoStepAuthController{}, "post:Auth"),
 			),
-		
 		),
 	)
 	beego.AddNamespace(apiNS)

@@ -25,8 +25,12 @@ log:
   # 设置文件保留天数, 默认时间单位为second, 7D=7*24*60*60=604800
   retainMaxAge: 604800
 
-database:
-  dbPath: data/devops-api.db
+db:
+  redis:
+    host: 127.0.0.1:6379
+    password: ""
+  boltDB:
+    dbPath: data/devops-api.db
 
 security:
   # 安全相关
@@ -47,5 +51,16 @@ notice:
     username: xxx@qq.com
     password: qq邮箱授权码
 
-twostepauth:
+twoStepAuth:
   qrImageDir: static/download/qr
+
+# 验证密码功能
+authPassword:
+  authPasswordExpiration: 60
+  # 是否 启用 钉钉通知 生成的密码
+  # 取值: true | false
+  enableDingtalkReciveGenPassword: false
+
+  # 是否 启用 邮件通知 生成的密码
+  # 取值: true | false
+  enableEmailReciveGenAuthPassword: true

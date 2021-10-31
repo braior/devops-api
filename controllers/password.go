@@ -6,10 +6,14 @@ import (
 	"strings"
 
 	"github.com/braior/brtool"
+	"github.com/braior/devops-api/common"
 	"github.com/sirupsen/logrus"
 )
 
-var genPasswordEntryType = "GenPassword"
+var (
+	genAuthPasswordEntryType   = "GenAuthPassword"
+	checkAuthPasswordEntryType = "CheckAuthPassword"
+)
 
 // GenPassword 生成指定长度的密码
 func (p *PasswordController) GenPassword() {
@@ -17,7 +21,7 @@ func (p *PasswordController) GenPassword() {
 	length, err := strconv.Atoi(p.GetString("length"))
 
 	if err != nil {
-		p.Json(genPasswordEntryType,
+		p.Json(genAuthPasswordEntryType,
 			fmt.Sprintf("%s", err), -1, logrus.ErrorLevel,
 			LogMap{"errMsg": "can't convert parameter length to int, must be a int number"}, true)
 	}
@@ -26,7 +30,7 @@ func (p *PasswordController) GenPassword() {
 	charSet := strings.ToLower(p.GetString("charSet"))
 
 	if name == "" {
-		p.Json(genPasswordEntryType, "", 0, logrus.InfoLevel,
+		p.Json(genAuthPasswordEntryType, "", 0, logrus.InfoLevel,
 			LogMap{"passowrd": brtool.GenRandomString(length, charSet)}, true)
 	} else {
 		m := make(map[string]string)
@@ -34,6 +38,40 @@ func (p *PasswordController) GenPassword() {
 		for _, name := range names {
 			m[name] = brtool.GenRandomString(length, charSet)
 		}
-		p.Json(genPasswordEntryType, "", 0, logrus.InfoLevel, LogMap{"password": m}, true)
+		p.Json(genAuthPasswordEntryType, "", 0, logrus.InfoLevel, LogMap{"password": m}, true)
+	}
+}
+
+// ManualGenAuthPassword 生成验证密码
+func (p *PasswordController) GenAuthPassword() {
+
+	username := p.GetString("username")
+	email := strings.Split(p.GetString("email"), ",")
+
+	if username == "" || len(email) == 0 {
+		p.Json(genAuthPasswordEntryType, "username and email must be required", 1, logrus.InfoLevel, LogMap{"genAuthPassword": false}, true)
+		return
+	}
+	if ok := common.GenPassword(username, email); ok {
+		p.Json(genAuthPasswordEntryType, "", 0, logrus.InfoLevel, LogMap{"genAuthPassword": true}, true)
+	} else {
+		p.Json(genAuthPasswordEntryType, "generate auth password error", 1, logrus.ErrorLevel, LogMap{"genAuthPassword": false}, true)
+	}
+}
+
+// AuthGenPassword
+func (p *PasswordController) CheckAuthPassword() {
+	username := p.GetString("username")
+	unauthPassword := p.GetString("password")
+
+	if username == "" || unauthPassword == "" {
+		p.Json(checkAuthPasswordEntryType, "username and password must be provide", 1, logrus.ErrorLevel, LogMap{"auth": false}, true)
+		return
+
+	}
+	if ok, _ := common.CheckPassword(username, unauthPassword); ok {
+		p.Json(checkAuthPasswordEntryType, "", 0, logrus.ErrorLevel, LogMap{"auth": true}, true)
+	} else {
+		p.Json(checkAuthPasswordEntryType, "password is not exist or expired", 1, logrus.ErrorLevel, LogMap{"auth": false}, true)
 	}
 }

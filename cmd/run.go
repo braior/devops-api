@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/astaxie/beego/logs"
 
 	"github.com/astaxie/beego"
 	"github.com/braior/brtool"
@@ -30,20 +31,18 @@ var run = &cobra.Command{
 			token, err := NewToken()
 			if err != nil {
 				errLog := fmt.Sprintf("init token error: %v", err)
-				beego.BeeLogger.Error(errLog)
+				logs.Error(errLog)
 				return
 			}
 			r, _ := token.IsExistToken("root")
 			if !r {
-				beego.BeeLogger.Error("root token not exist, please init")
+				logs.Error("root token not exist, please init")
 				// return
 			}
 		}
 		if RunMode != "" {
 			if _, ok := brtool.InstringSlice([]string{"dev", "test", "prod"}, RunMode); !ok {
-				beego.BeeLogger.Error("get run mode input error, mode: dev|test|prod")
-				//log.Fatalf("get run mode input error, mode: dev|test|prod")
-				// log.Fatalln("get run mode input error, mode: dev|test|prod")
+				logs.Error("get run mode input error, mode: dev|test|prod")
 			}
 
 		}

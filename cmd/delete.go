@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"log"
-
+	"github.com/astaxie/beego/logs"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +22,7 @@ func NewDeleteTokenCmd() *cobra.Command {
 
 			err := token.DeleteToken(rootToken, userName)
 			if err != nil {
-				log.Fatalf("%s\n", err)
+				logs.Error("%s\n", err)
 			}
 		},
 	}

@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
+
 	"github.com/spf13/cobra"
 )
 
@@ -25,7 +26,7 @@ func NewGetTokenCmd() *cobra.Command {
 			var err error
 
 			if token, err = NewToken(); err != nil {
-				beego.BeeLogger.Error("refresh root token failed, err: %s", err)
+				logs.Error("refresh root token failed, err: %s", err)
 				return
 			}
 
@@ -58,7 +59,7 @@ func NewGetTokenNameListCmd() *cobra.Command {
 			var err error
 
 			if token, err = NewToken(); err != nil {
-				beego.BeeLogger.Error("init tokenDB err: %s", err)
+				logs.Error("init tokenDB err: %s", err)
 				return
 			}
 

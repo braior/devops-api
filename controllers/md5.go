@@ -7,7 +7,7 @@ import (
 
 // Get md5 ...
 func (m *MD5Controller) Get() {
-	rawString := m.GetString("rawstr")
+	rawString := m.GetString("rawStr")
 	rawStringMD5 := brtool.GetMD5(rawString)
 	data := map[string]string{
 		"rawString":    rawString,

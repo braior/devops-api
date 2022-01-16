@@ -11,7 +11,7 @@ var (
 	twoStepAuthEntryType = "TwoStepAuth"
 )
 
-// Enable open twostep auth
+// Enable open two-step auth
 func (t *TwoStepAuthController) Enable() {
 	username := t.GetString("username")
 	issuer := t.GetString("issuer")

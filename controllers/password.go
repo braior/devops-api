@@ -42,7 +42,7 @@ func (p *PasswordController) GenPassword() {
 	}
 }
 
-// ManualGenAuthPassword 生成验证密码
+// GenAuthPassword 生成验证密码
 func (p *PasswordController) GenAuthPassword() {
 
 	username := p.GetString("username")
@@ -59,17 +59,17 @@ func (p *PasswordController) GenAuthPassword() {
 	}
 }
 
-// AuthGenPassword
+// CheckAuthPassword 密码验证
 func (p *PasswordController) CheckAuthPassword() {
 	username := p.GetString("username")
-	unauthPassword := p.GetString("password")
+	unAuthPassword := p.GetString("password")
 
-	if username == "" || unauthPassword == "" {
+	if username == "" || unAuthPassword == "" {
 		p.Json(checkAuthPasswordEntryType, "username and password must be provide", 1, logrus.ErrorLevel, LogMap{"auth": false}, true)
 		return
 
 	}
-	if ok, _ := common.CheckPassword(username, unauthPassword); ok {
+	if ok, _ := common.CheckPassword(username, unAuthPassword); ok {
 		p.Json(checkAuthPasswordEntryType, "", 0, logrus.ErrorLevel, LogMap{"auth": true}, true)
 	} else {
 		p.Json(checkAuthPasswordEntryType, "password is not exist or expired", 1, logrus.ErrorLevel, LogMap{"auth": false}, true)

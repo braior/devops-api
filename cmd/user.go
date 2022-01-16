@@ -2,7 +2,7 @@ package cmd
 
 import "fmt"
 
-// GetToken 根据name获取token
+// GetUsers 根据name获取token
 func (t *Token) GetUsers() (map[string][]byte, error) {
 	result, err := t.TokenDB.GetAll()
 	if err != nil {

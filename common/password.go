@@ -2,9 +2,9 @@ package common
 
 import (
 	"fmt"
+	"github.com/astaxie/beego/logs"
 	"time"
 
-	"github.com/astaxie/beego"
 	"github.com/braior/brtool"
 	"github.com/braior/devops-api/model"
 	"github.com/braior/devops-api/utils"
@@ -19,7 +19,7 @@ var (
 	expiredTime string
 )
 
-// // GenPassword 生成验证密码
+// GenPassword 生成验证密码
 func GenPassword(username string, email []string) bool {
 	var result bool
 
@@ -38,7 +38,7 @@ func GenPassword(username string, email []string) bool {
 	_, err := rc.Do("set", username, genAuthPassword, "EX", expiredTime)
 	if err != nil {
 		errLog := fmt.Sprintf("set redis key err: %s", err)
-		beego.BeeLogger.Error(errLog)
+		logs.Error(errLog)
 	}
 
 	sendPasswordResult := make(chan bool)
@@ -74,7 +74,7 @@ func CheckPassword(username, password string) (bool, error) {
 	authPassword, err := rc.Do("get", username)
 	if err != nil {
 		errLog := fmt.Sprintf("set redis key err: %s", err)
-		beego.BeeLogger.Error(errLog)
+		logs.Error(errLog)
 	}
 	fmt.Println(utils.Strval(authPassword))
 

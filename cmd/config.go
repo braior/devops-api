@@ -3,7 +3,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/braior/devops-api/utils"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/cobra"
@@ -28,13 +28,13 @@ func initConfig() {
 
 	viper.AutomaticEnv()
 	if err := viper.ReadInConfig(); err == nil {
-		beego.BeeLogger.Info("Using config file: %s", viper.ConfigFileUsed())
+		logs.Info("Using config file: %s", viper.ConfigFileUsed())
 	} else {
-		beego.BeeLogger.Error("%s", err)
+		logs.Error("%s", err)
 	}
 
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		beego.BeeLogger.Info("Config file changed:", e.Name)
+		logs.Info("Config file changed:", e.Name)
 	})
 	viper.WatchConfig()
 

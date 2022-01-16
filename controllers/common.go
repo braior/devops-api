@@ -41,47 +41,26 @@ func getUniqueIDName() string {
 
 // LogDebug ...
 func (b *BaseController) LogDebug(message string, logMap LogMap) {
-	// messageMap := b.log(msg)
-	// if _, ok := messageMap["statusCode"]; !ok {
-	// 	messageMap["statusCode"] = 0
-	// }
-
 	utils.Logger.Debug(logMap, message)
 }
 
 // LogInfo ...
 func (b *BaseController) LogInfo(message string, logMap LogMap) {
-	// messageMap := b.log(msg)
-	// if _, ok := messageMap["statusCode"]; !ok {
-	// 	messageMap["statusCode"] = 0
-	// }
 	utils.Logger.Info(logMap, message)
 }
 
 // LogWarn ...
 func (b *BaseController) LogWarn(message string, logMap LogMap) {
-	// messageMap := b.log(msg)
-	// if _, ok := messageMap["statusCode"]; !ok {
-	// 	messageMap["statusCode"] = -1
-	// }
 	utils.Logger.Warn(logMap, message)
 }
 
 // LogError ...
 func (b *BaseController) LogError(message string, logMap LogMap) {
-	// messageMap := b.log(msg)
-	// if _, ok := messageMap["statusCode"]; !ok {
-	// 	messageMap["statusCode"] = 1
-	// }
 	utils.Logger.Error(logMap, message)
 }
 
 // LogFatal ...
 func (b *BaseController) LogFatal(message string, logMap LogMap) {
-	// messageMap := b.log(msg)
-	// if _, ok := messageMap["statusCode"]; !ok {
-	// 	messageMap["statusCode"] = -1
-	// }
 	utils.Logger.Fatal(logMap, message)
 }
 
@@ -145,14 +124,14 @@ func (b *BaseController) Prepare() {
 		b.Data["token"] = token
 
 		// 验证 DEVOPS-API-TOKEN 是否有效
-		jwtoken, err := cmd.NewToken()
+		jwToken, err := cmd.NewToken()
 		if err != nil {
 			b.Json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
 		}
 
 		// 验证是否是root token 不能使用root token
-		isRoot, err := jwtoken.IsRootToken(token)
+		isRoot, err := jwToken.IsRootToken(token)
 		if err != nil {
 			b.Json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
@@ -162,7 +141,7 @@ func (b *BaseController) Prepare() {
 			b.StopRun()
 		}
 
-		_, err = jwtoken.IsTokenValid(token)
+		_, err = jwToken.IsTokenValid(token)
 		if err != nil {
 			b.Json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()

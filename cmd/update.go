@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"log"
-
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/spf13/cobra"
 )
 
@@ -24,13 +22,13 @@ func NewUpdateTokenCmd() *cobra.Command {
 			var err error
 
 			if token, err = NewToken(); err != nil {
-				beego.BeeLogger.Error("refresh root token failed, err: %s", err)
+				logs.Error("refresh root token failed, err: %s", err)
 				return
 			}
 
 			err = token.ForceRefresh()
 			if err != nil {
-				log.Fatalf("%s\n", err)
+				logs.Error("%s\n", err)
 			}
 		},
 	}

@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"log"
-
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/spf13/cobra"
 )
 
@@ -24,28 +22,28 @@ func NewCreateTokenCmd() *cobra.Command {
 			var err error
 
 			if token, err = NewToken(); err != nil {
-				beego.BeeLogger.Error("new %s failed, err: %s", userName, err)
+				logs.Error("new %s failed, err: %s", userName, err)
 				return
 			}
 
 			if userName == "root" {
 				err = token.AddRootToken()
 				if err != nil {
-					log.Fatalf("%s\n", err)
+					logs.Error("%s\n", err)
 				}
 			} else {
 				userToken, err := token.GetToken(userName)
 				if err != nil {
-					beego.BeeLogger.Error("err: %s", err)
+					logs.Error("err: %s", err)
 					return
 				}
 				if userToken == nil {
 					err = token.AddToken(rootToken, userName)
 					if err != nil {
-						log.Fatalf("%s\n", err)
+						logs.Error("%s\n", err)
 					}
 				} else {
-					beego.BeeLogger.Error("%s's token is already exist", userName)
+					logs.Error("%s's token is already exist", userName)
 				}
 			}
 

@@ -1,7 +1,9 @@
 logs
 .vscode
+.idea
 ./devops-api
 conf/devops-api.yaml
 data
 static
 keys
+backup

@@ -8,7 +8,6 @@ import (
 
 	"github.com/braior/brtool"
 	"github.com/sirupsen/logrus"
-
 	"github.com/spf13/viper"
 )
 
@@ -18,7 +17,7 @@ var (
 	Logger         *brtool.BRFileLogger
 )
 
-// NewLogger return a log instance for *logrus.Logger
+// LogInit ...
 func LogInit() {
 
 	var logPath string

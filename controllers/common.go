@@ -35,29 +35,9 @@ func getUniqueIDName() string {
 	if uniqueIDName == "" {
 		uniqueIDName = "RequestID"
 	}
-	// uniqueIDName := beego.AppConfig.String("uniqueIDName")
-	// if uniqueIDName == "" {
-	// 	uniqueIDName = "requestID"
-	// }
+
 	return uniqueIDName
 }
-
-// log 记录body中的header信息到日志中
-// func (b *BaseController) log(msg LogMap) LogMap {
-
-// 	if _, ok := msg["requestID"]; !ok {
-// 		msg["requestID"] = b.Data[UniQueIDName]
-// 	}
-
-// 	if _, ok := msg["clientIP"]; !ok {
-// 		msg["clientIP"] = b.Data["RemoteIP"]
-// 	}
-
-// 	if _, ok := msg["token"]; !ok {
-// 		msg["token"] = b.Data["token"]
-// 	}
-// 	return msg
-// }
 
 // LogDebug ...
 func (b *BaseController) LogDebug(message string, logMap LogMap) {
@@ -78,6 +58,7 @@ func (b *BaseController) LogInfo(message string, logMap LogMap) {
 	utils.Logger.Info(logMap, message)
 }
 
+// LogWarn ...
 func (b *BaseController) LogWarn(message string, logMap LogMap) {
 	// messageMap := b.log(msg)
 	// if _, ok := messageMap["statusCode"]; !ok {
@@ -86,6 +67,7 @@ func (b *BaseController) LogWarn(message string, logMap LogMap) {
 	utils.Logger.Warn(logMap, message)
 }
 
+// LogError ...
 func (b *BaseController) LogError(message string, logMap LogMap) {
 	// messageMap := b.log(msg)
 	// if _, ok := messageMap["statusCode"]; !ok {
@@ -94,6 +76,7 @@ func (b *BaseController) LogError(message string, logMap LogMap) {
 	utils.Logger.Error(logMap, message)
 }
 
+// LogFatal ...
 func (b *BaseController) LogFatal(message string, logMap LogMap) {
 	// messageMap := b.log(msg)
 	// if _, ok := messageMap["statusCode"]; !ok {
@@ -135,36 +118,9 @@ func (b *BaseController) Json(entryType string, errMsg string, statusCode int, l
 			case logrus.FatalLevel:
 				b.LogFatal(entryType, logMsg)
 			}
-			// if statusCode == 1 {
-			// 	b.LogError(message, logMsg)
-			// } else if statusCode == 0 {
-			// 	b.LogInfo(message, logMsg)
-			// } else if statusCode == -1 {
-			// 	b.LogFatal(message, logMsg)
-			// }
 		}()
 	}
 }
-
-// func (b *BaseController) Json(entryType, Msg string, statusCode int, logLevel logrus.Level, data interface{}, isLog bool) {
-// 	b.json(entryType, Msg, statusCode, logLevel, data, isLog)
-// }
-
-// func (b *BaseController) JsonInfo(entryType, Msg string, data interface{}, isLog bool) {
-// 	b.json(entryType, Msg, 0, data, isLog)
-// }
-
-// func (b *BaseController) JsonWarning(entryType, Msg string, data interface{}, isLog bool) {
-// 	b.json(entryType, Msg, 0, data, isLog)
-// }
-
-// func (b *BaseController) JsonError(entryType, Msg string, data interface{}, isLog bool) {
-// 	b.json(entryType, Msg, -1, data, isLog)
-// }
-
-// func (b *BaseController) JsonFatal(entryType, Msg string, data interface{}, isLog bool) {
-// 	b.json(entryType, Msg, -1, data, isLog)
-// }
 
 // Prepare 覆盖beego.Controller的方法
 func (b *BaseController) Prepare() {
@@ -196,12 +152,12 @@ func (b *BaseController) Prepare() {
 		}
 
 		// 验证是否是root token 不能使用root token
-		isroot, err := jwtoken.IsRootToken(token)
+		isRoot, err := jwtoken.IsRootToken(token)
 		if err != nil {
 			b.Json("JWToken Auth", TokenAuthError, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
 		}
-		if isroot {
+		if isRoot {
 			b.Json("JWToken Auth", ProhibitUseRootToken, 1, logrus.ErrorLevel, LogMap{}, true)
 			b.StopRun()
 		}
@@ -224,22 +180,22 @@ type MD5Controller struct {
 	BaseController
 }
 
-// PasswordController
+// PasswordController is the password controller
 type PasswordController struct {
 	BaseController
 }
 
-// DingdingController
-type DingdingController struct {
+// DingTalkController is the ding-talk controller
+type DingTalkController struct {
 	BaseController
 }
 
-// EmailController
+// EmailController is the email controller
 type EmailController struct {
 	BaseController
 }
 
-// TwoStepAuthController
+// TwoStepAuthController is the tow step auth controller
 type TwoStepAuthController struct {
 	BaseController
 }

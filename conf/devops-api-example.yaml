@@ -64,3 +64,9 @@ authPassword:
   # 是否 启用 邮件通知 生成的密码
   # 取值: true | false
   enableEmailReciveGenAuthPassword: true
+
+task:
+  dbBackup:
+    spec: "*/5 * * * * ?"
+    tableName: token
+    fileNamePrefix: backup/devops-api-db-token

@@ -50,7 +50,7 @@ func init() {
 	initConfig()
 	// cobra.OnInitialize(initConfig)
 
-	DBPath = viper.GetString("database.dbPath")
+	DBPath = viper.GetString("db.boltDB.dbPath")
 	QrImageDir = viper.GetString("twoStepAuth.qrImageDir")
 	if !brtool.IsExist(QrImageDir) {
 		os.MkdirAll(QrImageDir, os.ModePerm)
